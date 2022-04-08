@@ -43,6 +43,7 @@ export const fetchApi = {
       throw error;
     }
 
-    return response.json();
+    try { return response.json(); }
+    catch(e) { return ''; }
   }
 }
