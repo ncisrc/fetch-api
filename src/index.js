@@ -5,7 +5,7 @@
  *
  * Author: Mathieu LALLEMAND
  */
-import { cookiesStorage } from 'cookies-storage';
+import { cookiesStorage } from '@ncisrc/cookies-storage';
 
 export const fetchApi = {
   get(url)         { return this.doFetch('GET',    url); },
