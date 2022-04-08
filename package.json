@@ -1,29 +1,30 @@
 {
-  "name": "@nci/bearer-fetch",
+  "name": "@ncisrc/fetch-api",
   "version": "1.0.0",
-  "description": "Very light API call lib. It can use a cookie value as a bearer token.",
-  "main": "index.js",
+  "description": "A very light HTTP client build on FetchAPI. It can use a cookie value as a bearer token.",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ncifr/bearer-fetch.git"
+    "url": "git+https://github.com/ncisrc/fetch-api.git"
   },
   "keywords": [
     "fetch",
     "api",
     "axios",
+    "clone",
     "token",
-    "light",
+    "lightweight",
     "simple"
   ],
   "author": "Mathieu Lallemand",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ncifr/bearer-fetch/issues"
+    "url": "https://github.com/ncisrc/fetch-api/issues"
   },
-  "homepage": "https://github.com/ncifr/bearer-fetch#readme",
+  "homepage": "https://github.com/ncisrc/fetch-api#readme",
   "dependencies": {
     "@ncisrc/cookies-storage": "^1.0.1"
   }
