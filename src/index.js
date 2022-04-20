@@ -8,11 +8,11 @@
 import { cookiesStorage } from '@ncisrc/cookies-storage';
 
 export const fetchApi = {
-  get(url)         { return this.doFetch('GET',    url); },
-  post(url, data)  { return this.doFetch('POST',   url, data); },
-  patch(url, data) { return this.doFetch('PATCH',  url, data); },
-  put(url,data)    { return this.doFetch('PUT',    url, data); },
-  delete(url)      { return this.doFetch('DELETE', url); },
+  async get(url)         { return await this.doFetch('GET',    url); },
+  async post(url, data)  { return await this.doFetch('POST',   url, data); },
+  async patch(url, data) { return await this.doFetch('PATCH',  url, data); },
+  async put(url,data)    { return await this.doFetch('PUT',    url, data); },
+  async delete(url)      { return await this.doFetch('DELETE', url); },
 
   async doFetch(verb, url, data = null) {
     let headersBase = new Headers();
