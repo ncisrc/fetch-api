@@ -1,7 +1,6 @@
 /**
  * This is a simple script to get rid of the axios dependancy.
- * Very low footprint, it will use the _appToken cookie value (base64 encoded)
- * as Bearer token if present in browser.
+ * Very low footprint, it will use a cookie value as Bearer token if present in browser.
  *
  * Author: Mathieu LALLEMAND
  */
