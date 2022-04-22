@@ -1,6 +1,6 @@
 # fetchApi
 
-This is a very very (very) light alternative to Axios when using VueJS or Laravel in API mode (appliction/json header). 
+This is a very light (<2 Ko) alternative to Axios when using VueJS or Laravel in API mode (appliction/json header). 
 It's based on the native javascript [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) function.
 
 # Usage
