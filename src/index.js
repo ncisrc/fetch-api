@@ -7,6 +7,8 @@
  */
 import { cookiesStorage } from '@ncisrc/cookies-storage';
 
+const tokenCookieName = process.env.VUE_APP_TOKEN_COOKIE_NAME || process.env.MIX_TOKEN_COOKIE_NAME || '_appToken';
+
 export const fetchApi = {
   async get(url)         { return await this.doFetch('GET',    url); },
   async post(url, data)  { return await this.doFetch('POST',   url, data); },
@@ -20,7 +22,7 @@ export const fetchApi = {
         headersBase.append("Accept",           "application/json");
         headersBase.append("X-Requested-With", "XMLHttpRequest");
 
-    const appToken = cookiesStorage.getItem('_appToken');
+    const appToken = cookiesStorage.getItem(tokenCookieName);
     if (appToken)
       headersBase.append ("Authorization", `Bearer ${atob(appToken)}`);
 /*
