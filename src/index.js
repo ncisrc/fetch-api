@@ -7,7 +7,7 @@
  */
 import { cookiesStorage } from '@ncisrc/cookies-storage';
 
-const tokenCookieName = process.env.VUE_APP_TOKEN_COOKIE_NAME || process.env.MIX_TOKEN_COOKIE_NAME || '_appToken';
+const tokenCookieName = process.env.MIX_TOKEN_COOKIE_NAME || process.env.VUE_APP_TOKEN_COOKIE_NAME || process.env.VITE_TOKEN_COOKIE_NAME || '_appToken';
 
 export const fetchApi = {
   async get(url)         { return await this.doFetch('GET',    url); },
