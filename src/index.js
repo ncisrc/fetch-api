@@ -24,7 +24,7 @@ export const fetchApi = {
 
     const appToken = cookiesStorage.getItem(tokenCookieName);
     if (appToken)
-      headersBase.append ("Authorization", `Bearer ${atob(appToken)}`);
+      headersBase.append ("Authorization", `Bearer ${appToken}`);
 
     const response = await fetch(url, {
       method: verb,
