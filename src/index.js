@@ -25,15 +25,7 @@ export const fetchApi = {
     const appToken = cookiesStorage.getItem(tokenCookieName);
     if (appToken)
       headersBase.append ("Authorization", `Bearer ${atob(appToken)}`);
-/*
-    const xsrfToken = cookiesStorage.getItem('XSRF-TOKEN');
-    if (xsrfToken)
-      headersBase.append('X-XSRF-TOKEN', xsrfToken);
 
-    const csrfToken = document.head.querySelector('meta[name="csrf-token"]')
-    if (csrfToken)
-      headersBase.append('X-CSRF-TOKEN', csrfToken.content);
-*/
     const response = await fetch(url, {
       method: verb,
       headers: headersBase,
