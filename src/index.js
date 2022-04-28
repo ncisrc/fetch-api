@@ -47,7 +47,7 @@ export const fetchApi = {
       throw error;
     }
 
-    try { return response.json(); }
+    try { return response ? response.json() : ''; }
     catch(e) { return ''; }
   }
 }
