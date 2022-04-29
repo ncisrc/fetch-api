@@ -28,6 +28,10 @@ export const fetchApi = {
       headersBase.append ("Authorization", `Bearer ${appToken}`);
     }
 
+    const xsrfToken = cookiesStorage.getItem('XSRF-TOKEN');
+    if (xsrfToken)
+      headersBase.append('X-XSRF-TOKEN', xsrfToken);
+
     const response = await fetch(url, {
       method: verb,
       headers: headersBase,
