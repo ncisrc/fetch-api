@@ -6,17 +6,18 @@
  */
 import { cookiesStorage } from '@ncisrc/cookies-storage';
 
+
 const tokenCookieName = process.env.MIX_TOKEN_COOKIE_NAME || process.env.VUE_APP_TOKEN_COOKIE_NAME || process.env.VITE_TOKEN_COOKIE_NAME || '_appToken';
-const tokenCookieKey  = process.env.MIX_TOKEN_COOKIE_KEY  || process.env.VUE_APP_TOKEN_COOKIE_KEY  || process.env.VITE_TOKEN_COOKIE_KEY  || '';
 
 export const fetchApi = {
-  async get(url)         { return await this.doFetch('GET',    url); },
-  async post(url, data)  { return await this.doFetch('POST',   url, data); },
-  async patch(url, data) { return await this.doFetch('PATCH',  url, data); },
-  async put(url,data)    { return await this.doFetch('PUT',    url, data); },
-  async delete(url)      { return await this.doFetch('DELETE', url); },
+  async get(url)          { return await this.doFetch('GET',    url); },
+  async post(url, data)   { return await this.doFetch('POST',   url, data); },
+  async patch(url, data)  { return await this.doFetch('PATCH',  url, data); },
+  async put(url,data)     { return await this.doFetch('PUT',    url, data); },
+  async delete(url)       { return await this.doFetch('DELETE', url); },
+  async upload(url, file) { return await this.doUpload(url, file); },
 
-  async doFetch(verb, url, data = null) {
+  async doFetch(verb, url, data = null, jsonData = true) {
     let headersBase = new Headers();
         headersBase.append("Content-Type",     "application/json");
         headersBase.append("Accept",           "application/json");
@@ -35,7 +36,7 @@ export const fetchApi = {
     const response = await fetch(url, {
       method: verb,
       headers: headersBase,
-      body: (data != null) ? JSON.stringify(data) : null
+      body: this.getBody(data, jsonData)
     });
 
     // check for error response
@@ -51,10 +52,21 @@ export const fetchApi = {
       throw error;
     }
 
-    try { 
-      const data = await response.json(); 
+    try {
+      const data = await response.json();
       return data;
     }
     catch(e) { return ''; }
+  },
+
+  async doUpload(url, inputFile) {
+    var data = new FormData();
+    data.append('file', inputFile.files[0]);
+    return await this.doFetch('POST', url, data);
+  },
+
+  getBody(data, jsonData) {
+    if (data != null) return jsonData ? JSON.stringify(data) : data;
+    return '';
   }
 }

@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/ncisrc/fetch-api#readme",
   "dependencies": {
-    "@ncisrc/cookies-storage": "git+https://github.com/ncisrc/cookies-storage.git#main"
+    "@ncisrc/cookies-storage": "git+https://github.com/ncisrc/cookies-storage.git#main",
+    "aes256": "^1.1.0"
   }
 }
