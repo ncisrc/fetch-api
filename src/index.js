@@ -17,16 +17,16 @@ export const fetchApi = {
   async delete(url)       { return await this.doFetch('DELETE', url); },
   async upload(url, file) { return await this.doUpload(url, file); },
 
-  async doFetch(verb, url, data = null, jsonData = true) {
+  async doFetch(verb, url, data = null, isUpload = false) {
+    console.log('fetchAPI upload ? ', isUpload);
     let headersBase = new Headers();
-        headersBase.append("Content-Type",     "application/json");
+        if (!isUpload) headersBase.append("Content-Type", "application/json");
         headersBase.append("Accept",           "application/json");
         headersBase.append("X-Requested-With", "XMLHttpRequest");
 
     const cookieTokenValue = cookiesStorage.getItem(tokenCookieName);
     if (cookieTokenValue) {
-      const appToken = (tokenCookieKey != '') ? cookieTokenValue : aes256.decrypt(tokenCookieKey, cryptToken);
-      headersBase.append ("Authorization", `Bearer ${appToken}`);
+      headersBase.append ("Authorization", `Bearer ${cookieTokenValue}`);
     }
 
     const xsrfToken = cookiesStorage.getItem('XSRF-TOKEN');
@@ -36,7 +36,7 @@ export const fetchApi = {
     const response = await fetch(url, {
       method: verb,
       headers: headersBase,
-      body: this.getBody(data, jsonData)
+      body: this.getBody(data, isUpload)
     });
 
     // check for error response
@@ -50,21 +50,18 @@ export const fetchApi = {
       throw error;
     }
 
-    try {
-      const data = await response.json();
-      return data;
-    }
+    try { return await response.json(); }
     catch(e) { return ''; }
   },
 
-  async doUpload(url, inputFile) {
+  async doUpload(url, file) {
     var data = new FormData();
-    data.append('file', inputFile.files[0]);
-    return await this.doFetch('POST', url, data);
+    data.append('file', file);
+    return await this.doFetch('POST', url, data, true);
   },
 
-  getBody(data, jsonData) {
-    if (data != null) return jsonData ? JSON.stringify(data) : data;
+  getBody(data, isUpload) {
+    if (data != null) return isUpload ? data : JSON.stringify(data);
     return null;
   }
 }
