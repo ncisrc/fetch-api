@@ -41,9 +41,7 @@ export const fetchApi = {
 
     // check for error response
     if (!response.ok) {
-      const body = await response.json();
-
-      // Get error message from body or default to response status
+      const body  = await response.json();
       const error = {
         code    : response.status,
         message : body.message || 'Unkown error',
@@ -67,6 +65,6 @@ export const fetchApi = {
 
   getBody(data, jsonData) {
     if (data != null) return jsonData ? JSON.stringify(data) : data;
-    return '';
+    return null;
   }
 }
