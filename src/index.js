@@ -18,7 +18,6 @@ export const fetchApi = {
   async upload(url, file) { return await this.doUpload(url, file); },
 
   async doFetch(verb, url, data = null, isUpload = false) {
-    console.log('fetchAPI upload ? ', isUpload);
     let headersBase = new Headers();
         if (!isUpload) headersBase.append("Content-Type", "application/json");
         headersBase.append("Accept",           "application/json");
@@ -55,7 +54,7 @@ export const fetchApi = {
   },
 
   async doUpload(url, file) {
-    var data = new FormData();
+    const data = new FormData();
     data.append('file', file);
     return await this.doFetch('POST', url, data, true);
   },
