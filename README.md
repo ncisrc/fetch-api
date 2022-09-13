@@ -5,7 +5,7 @@ This is a very light (<2Ko) alternative to Axios when using VueJS and/or Laravel
 This library is based on the native javascript [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) function.
 
 
-# Usage
+## Usage
 ```javascript
 import { fetchApi } from "@ncisrc/fetchApi";
 
@@ -16,7 +16,7 @@ const reply = await fetchApi.post('http://my.api.com/', {
 });
 ```
 
-# Authentication
+## Authentication
 **fetchApi** can automaticaly set a Bearer Token if your token is stored in a secure cookie in your browser.
 
 The default cookie name is `_appToken`
@@ -30,7 +30,7 @@ Take care to correctly (and securely) set your cookie (Secure Flag, SameSite, ch
 
 You can use https://github.com/ncisrc/cookies-storage if you want a simple library to set secure cookies in your JS frontend.
 
-# Uploading files
+## Uploading files
 **fetchApi** can upload files using the `upload` method:
 
 index.html
@@ -48,5 +48,35 @@ import fetchApi from '@ncisrv/fetchApi'
 async function upload() {
   const inputElt = document.getElementById('inputFile');
   return await fetchApi.upload('/upload', inputElt);
+}
+```
+
+## Handling Errors
+
+Most of time, you want to redirect your users to the login page/component if fetchApi get a `!response.ok` or an `HTTP 40X` error code.
+
+You can acheive this by adding you fail handler, return `true` if you want to continue the fetchApi flow, `false` if you want to stop everything after you failHandler :
+
+```javascript
+fetchApi.failHandler = (response) =>  {
+
+  // Your tests on the FETCH response object
+
+  // Your redirects
+
+  return true; // true : continue, false : stop
+}
+```
+
+Example :
+```javascript
+fetchApi.failHandler = (response) =>  {
+
+  const unauthentified = (response.status > 399 && response.status <500)
+
+  if (unauthentified)
+    window.location = '/login'
+
+  return !unauthentified;
 }
 ```

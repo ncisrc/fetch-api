@@ -6,10 +6,15 @@
  */
 import { cookiesStorage } from '@ncisrc/cookies-storage';
 
+const tokenCookieName = process.env.MIX_TOKEN_COOKIE_NAME
+                     || process.env.VUE_APP_TOKEN_COOKIE_NAME
+                     || process.env.VITE_TOKEN_COOKIE_NAME
+                     || '_appToken';
 
-const tokenCookieName = process.env.MIX_TOKEN_COOKIE_NAME || process.env.VUE_APP_TOKEN_COOKIE_NAME || process.env.VITE_TOKEN_COOKIE_NAME || '_appToken';
+let fetchApi_FailHandler = null;
 
 export const fetchApi = {
+
   async get(url)          { return await this.doFetch('GET',    url); },
   async post(url, data)   { return await this.doFetch('POST',   url, data); },
   async patch(url, data)  { return await this.doFetch('PATCH',  url, data); },
@@ -19,13 +24,13 @@ export const fetchApi = {
 
   async doFetch(verb, url, data = null, isUpload = false) {
     let headersBase = new Headers();
-        if (!isUpload) headersBase.append("Content-Type", "application/json");
-        headersBase.append("Accept",           "application/json");
-        headersBase.append("X-Requested-With", "XMLHttpRequest");
+        if (!isUpload) headersBase.append('Content-Type', 'application/json');
+        headersBase.append('Accept', 'application/json');
+        headersBase.append('X-Requested-With', 'XMLHttpRequest');
 
     const cookieTokenValue = cookiesStorage.getItem(tokenCookieName);
     if (cookieTokenValue) {
-      headersBase.append ("Authorization", `Bearer ${cookieTokenValue}`);
+      headersBase.append ('Authorization', `Bearer ${cookieTokenValue}`);
     }
 
     const xsrfToken = cookiesStorage.getItem('XSRF-TOKEN');
@@ -33,19 +38,28 @@ export const fetchApi = {
       headersBase.append('X-XSRF-TOKEN', xsrfToken);
 
     const response = await fetch(url, {
-      method: verb,
-      headers: headersBase,
-      body: this.getBody(data, isUpload)
+      method  : verb,
+      headers : headersBase,
+      body    : this.getBody(data, isUpload)
     });
+
+    for (let f of fetchApiInterceptorAry) {
+      let result = await f(response);
+      if (!result) return;
+    }
 
     // check for error response
     if (!response.ok) {
+
+      // First, let the user defined handler to things.
+      if (failHandler != null && !failHandler(response)) return;
+
       const body  = await response.json();
       const error = {
         code    : response.status,
         message : body.message || 'Unkown error',
-        errors  : body.errors || []
-      }
+        errors  : body.errors  || []
+      };
       throw error;
     }
 
@@ -62,5 +76,9 @@ export const fetchApi = {
   getBody(data, isUpload) {
     if (data != null) return isUpload ? data : JSON.stringify(data);
     return null;
-  }
-}
+  },
+
+  async failHandler( func ) {
+    fetchApi_FailHandler = func;
+  },
+};

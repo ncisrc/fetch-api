@@ -27,5 +27,8 @@
   "homepage": "https://github.com/ncisrc/fetch-api#readme",
   "dependencies": {
     "@ncisrc/cookies-storage": "git+https://github.com/ncisrc/cookies-storage.git#main"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0"
   }
 }
