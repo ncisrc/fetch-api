@@ -43,11 +43,6 @@ export const fetchApi = {
       body    : this.getBody(data, isUpload)
     });
 
-    for (let f of fetchApiInterceptorAry) {
-      let result = await f(response);
-      if (!result) return;
-    }
-
     // check for error response
     if (!response.ok) {
 
