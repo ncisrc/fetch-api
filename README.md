@@ -58,19 +58,19 @@ Most of time, you want to redirect your users to the login page/component if fet
 You can acheive this by adding you fail handler, return `true` if you want to continue the fetchApi flow, `false` if you want to stop everything after you failHandler :
 
 ```javascript
-fetchApi.failHandler = (response) =>  {
+fetchApi.failHandler((response) => {
 
   // Your tests on the FETCH response object
 
   // Your redirects
 
   return true; // true : continue, false : stop
-}
+});
 ```
 
 Example :
 ```javascript
-fetchApi.failHandler = (response) =>  {
+fetchApi.failHandler((response) => {
 
   const unauthentified = (response.status > 399 && response.status <500)
 
@@ -78,5 +78,5 @@ fetchApi.failHandler = (response) =>  {
     window.location = '/login'
 
   return !unauthentified;
-}
+})
 ```
