@@ -47,7 +47,7 @@ export const fetchApi = {
     if (!response.ok) {
 
       // First, let the user defined handler to things.
-      if (failHandler != null && !failHandler(response)) return;
+      if (fetchApi_FailHandler != null && !fetchApi_FailHandler(response)) return;
 
       const body  = await response.json();
       const error = {
