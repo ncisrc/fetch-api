@@ -1,5 +1,7 @@
 # fetchApi
 
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
+
 This is a very light (<2Ko) alternative to Axios when using VueJS and/or Laravel in API mode (appliction/json header).
 
 This library is based on the native javascript [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) function.
