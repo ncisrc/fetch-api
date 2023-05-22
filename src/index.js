@@ -12,6 +12,7 @@ const tokenCookieName = process.env.MIX_TOKEN_COOKIE_NAME ||
                      '_appToken'
 
 let fetchApiFailHandler = null
+let bearerToken = null
 
 export const fetchApi = {
 
@@ -31,6 +32,10 @@ export const fetchApi = {
     const cookieTokenValue = cookiesStorage.getItem(tokenCookieName)
     if (cookieTokenValue) {
       headersBase.append('Authorization', `Bearer ${cookieTokenValue}`)
+    }
+
+    if (bearerToken) {
+      headersBase.append('Authorization', `Bearer ${bearerToken}`)
     }
 
     const xsrfToken = cookiesStorage.getItem('XSRF-TOKEN')
@@ -72,5 +77,9 @@ export const fetchApi = {
 
   async failHandler (func) {
     fetchApiFailHandler = func
+  },
+
+  async setBearerToken (token) {
+    bearerToken = token
   }
 }

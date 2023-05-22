@@ -82,3 +82,11 @@ fetchApi.failHandler((response) => {
   return !unauthentified;
 })
 ```
+## Set bearer token
+
+You can set the bearer token manually by using the `setBearerToken` method :
+
+Example :
+```javascript
+fetchApi.setBearerToken('myToken');
+```
