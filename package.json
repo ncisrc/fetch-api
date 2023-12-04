@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "@ncisrc/fetch-api",
   "version": "1.0.1",
   "description": "A very light HTTP client build on FetchAPI. It can use a cookie value as a bearer token.",
